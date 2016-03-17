@@ -9,15 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.jakehasler.familymap.MainActivity">
 
-    <TextView
+    <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World"
-        android:textSize="25dp"
-        android:textIsSelectable="true"
-        android:textStyle="bold"
-        android:id="@+id/textView2"
+        android:name="com.jakehasler.familymap.login.LoginFragment"
+        android:id="@+id/fragment"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        tools:layout="@layout/fragment_login" />
 
 </RelativeLayout>

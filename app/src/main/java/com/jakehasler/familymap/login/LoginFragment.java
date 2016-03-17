@@ -2,11 +2,12 @@ package com.jakehasler.familymap.login;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.jakehasler.familymap.R;
 
 import org.json.JSONObject;
 
@@ -38,21 +39,12 @@ public class LoginFragment extends Fragment {
      * Takes in the form data, posts to the Database, handles response whether its success or an error.
      * @param formData
      */
-    public void onLogin(String formData) {
+    public void onLogin(String formData) throws MalformedURLException {
         String totalUrl = "http://" + this.host + ":" + this.port;
-        URL url = null;
-        try {
-            url = new URL("http://www.android.com/");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url = new URL("http://www.android.com/");
         HttpURLConnection urlConnection = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             System.out.println("in = " + in);;
         }
@@ -70,10 +62,12 @@ public class LoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        //return super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        return rootView;
     }
 
 

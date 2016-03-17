@@ -15,6 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginFragment = new LoginFragment();
-        loginFragment.onLogin("Test");
+        // loginFragment.onLogin("Test");
     }
 }
