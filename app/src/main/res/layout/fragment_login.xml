@@ -51,7 +51,8 @@
         android:layout_marginTop="75dp"
         android:layout_below="@+id/textView3"
         android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3" />
+        android:layout_alignEnd="@+id/textView3"
+        android:text="john" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:text="bacon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,7 +100,8 @@
         android:layout_marginTop="30dp"
         android:layout_below="@+id/password"
         android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password" />
+        android:layout_alignStart="@+id/password"
+        android:text="192.168.2.108" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,7 +124,8 @@
         android:layout_marginTop="30dp"
         android:layout_below="@+id/host"
         android:layout_alignLeft="@+id/host"
-        android:layout_alignStart="@+id/host" />
+        android:layout_alignStart="@+id/host"
+        android:text="8080" />
 
     <Button
         android:layout_width="wrap_content"

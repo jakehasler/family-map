@@ -44,11 +44,13 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
 
     /**
      * Takes in the form data, posts to the Database, handles response whether its success or an error.
-     * @param formData
+     *
      */
-    public void onLogin(String formData) throws MalformedURLException {
-        String totalUrl = "http://" + this.host + ":" + this.port;
-        URL url = new URL("http://www.android.com/");
+    public void onLogin() throws MalformedURLException {
+
+        String totalUrl = "http://" + this.host.getText().toString() + ":" + this.port.getText().toString() + "/event/";
+        URL url = new URL(totalUrl);
+        System.out.println("totalUrl = " + totalUrl);
         HttpURLConnection urlConnection = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -76,6 +78,10 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         loginButton = (Button) rootView.findViewById(R.id.login);
         loginButton.setOnClickListener(this);
+        username = (EditText) rootView.findViewById(R.id.username);
+        password = (EditText) rootView.findViewById(R.id.password);
+        host = (EditText) rootView.findViewById(R.id.host);
+        port = (EditText) rootView.findViewById(R.id.port);
         return rootView;
     }
 
@@ -110,17 +116,22 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
     public void onClick(View v) {
         listener.onFragmentInteraction(null);
         System.out.println("Button Clicked!");
-        System.out.println("v = " + v);
+        System.out.println(this.toString());
+        try {
+            onLogin();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Override
     public String toString() {
         return "LoginFragment{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", host='" + host + '\'' +
-                ", port='" + port + '\'' +
+                "username='" + username.getText().toString() + '\'' +
+                ", password='" + password.getText().toString() + '\'' +
+                ", host='" + host.getText().toString() + '\'' +
+                ", port='" + port.getText().toString() + '\'' +
                 ", authToken='" + authToken + '\'' +
                 ", personId='" + personId + '\'' +
                 '}';
