@@ -84,10 +84,18 @@
         android:id="@+id/textView6"
         android:textSize="14dp"
         android:textStyle="italic"
-        android:layout_toStartOf="@+id/textView4"
         android:layout_alignTop="@+id/host"
         android:layout_alignLeft="@+id/host"
         android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/host"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignStart="@+id/password" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,17 +106,18 @@
         android:textStyle="italic"
         android:layout_marginTop="0dp"
         android:id="@+id/textView2"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_alignTop="@+id/port" />
+        android:layout_alignTop="@+id/port"
+        android:layout_alignParentLeft="false"
+        android:layout_alignLeft="@+id/port" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/host"
+        android:id="@+id/port"
         android:layout_marginTop="24dp"
-        android:layout_below="@+id/password"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password" />
+        android:layout_below="@+id/host"
+        android:layout_alignLeft="@+id/host"
+        android:layout_alignStart="@+id/host" />
 
     <Button
         android:layout_width="wrap_content"
@@ -124,14 +133,5 @@
         android:layout_below="@+id/port"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/port"
-        android:layout_below="@+id/host"
-        android:layout_alignLeft="@+id/host"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="24dp" />
 
 </RelativeLayout>

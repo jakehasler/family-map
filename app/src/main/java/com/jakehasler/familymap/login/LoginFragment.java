@@ -1,10 +1,14 @@
 package com.jakehasler.familymap.login;
 
-import android.app.Fragment;
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.jakehasler.familymap.R;
@@ -22,12 +26,15 @@ import java.net.HttpURLConnection;
 /**
  * Created by jakehasler on 3/16/16.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements Button.OnClickListener {
+
+    private OnFragmentInteractionListener listener;
 
     private EditText username;
     private EditText password;
     private EditText host;
     private EditText port;
+    private Button loginButton;
     private String authToken;
     private String personId;
 
@@ -67,7 +74,20 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        loginButton = (Button) rootView.findViewById(R.id.login);
+        loginButton.setOnClickListener(this);
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (LoginFragment.OnFragmentInteractionListener) context;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException((context.toString() + " must implement OnFragmentInteractionListener"));
+        }
     }
 
 
@@ -87,6 +107,12 @@ public class LoginFragment extends Fragment {
         this.personId = personId;
     }
 
+    public void onClick(View v) {
+        listener.onFragmentInteraction(null);
+        System.out.println("Button Clicked!");
+        System.out.println("v = " + v);
+    }
+
 
     @Override
     public String toString() {
@@ -98,5 +124,9 @@ public class LoginFragment extends Fragment {
                 ", authToken='" + authToken + '\'' +
                 ", personId='" + personId + '\'' +
                 '}';
+    }
+
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(Uri uri);
     }
 }
