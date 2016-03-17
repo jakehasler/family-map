@@ -62,6 +62,14 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         System.out.println("MainModel.getAuthToken() = " + MainModel.getAuthToken());
         System.out.println("MainModel.getPersonId() = " + MainModel.getUser().getPersonId());
 
+        JSONObject events = Async.getEvents(totalUrl);
+        // TODO: Put all events into model
+        System.out.println("events = " + events);
+
+        JSONObject persons = Async.getAllPersons(totalUrl);
+        // TODO: Put all persons into model
+        System.out.println("persons = " + persons);
+
     }
 
 
