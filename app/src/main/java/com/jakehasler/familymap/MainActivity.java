@@ -25,13 +25,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new LoginFragment()).commit();
         }
+        // Fragment to notify the activity when changes to load the map activity
 
     }
 
 
 
     public void onFragmentInteraction(Uri uri) {
-        Toast toast = Toast.makeText(this, "VIEW Loaded", Toast.LENGTH_SHORT);
-        toast.show();
+//        Toast toast = Toast.makeText(this, MainModel.welcomeMsg, Toast.LENGTH_SHORT);
+//        toast.show();
     }
 }

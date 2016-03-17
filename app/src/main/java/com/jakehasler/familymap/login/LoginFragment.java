@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.R;
 import com.jakehasler.familymap.async.Async;
@@ -21,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+
+import static com.jakehasler.familymap.MainModel.*;
 
 /**
  * Created by jakehasler on 3/16/16.
@@ -36,6 +40,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
     private Button loginButton;
     private String authToken;
     private String personId;
+    private String statusMsg;
 
 
     public LoginFragment() {
@@ -54,21 +59,33 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
             loginBody.put("password", password.getText().toString());
             JSONObject loginRes = Async.doLogin(totalUrl, loginBody);
             MainModel.setAuthToken(loginRes.getString("Authorization"));
-            MainModel.setUsername(loginRes.getString("userName"));
-            MainModel.setUser(new Person(loginRes.getString("personId")));
+            setUsername(loginRes.getString("userName"));
+            setUser(new Person(loginRes.getString("personId")));
+            JSONObject currUser = Async.getSinglePerson(totalUrl, getUser().getPersonId());
+            getUser().setfName(currUser.getString("firstName"));
+            getUser().setlName(currUser.getString("lastName"));
+            statusMsg = "Welcome " + getUser().getfName() + " " + getUser().getlName() + "!";
+            System.out.println("welcomeMsg = " + welcomeMsg);
+            System.out.println("MainModel.getAuthToken() = " + MainModel.getAuthToken());
+            System.out.println("MainModel.getPersonId() = " + getUser().getPersonId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println("MainModel.getAuthToken() = " + MainModel.getAuthToken());
-        System.out.println("MainModel.getPersonId() = " + MainModel.getUser().getPersonId());
 
-        JSONObject events = Async.getEvents(totalUrl);
-        // TODO: Put all events into model
-        System.out.println("events = " + events);
+        if(MainModel.getAuthToken() == null) {
+            statusMsg = "Login Failed!";
+        }
 
-        JSONObject persons = Async.getAllPersons(totalUrl);
-        // TODO: Put all persons into model
-        System.out.println("persons = " + persons);
+        Toast toast = Toast.makeText(this.getContext(), statusMsg, Toast.LENGTH_SHORT);
+        toast.show();
+
+//        JSONObject events = Async.getEvents(totalUrl);
+//        // TODO: Put all events into model
+//        System.out.println("events = " + events);
+//
+//        JSONObject persons = Async.getAllPersons(totalUrl);
+//        // TODO: Put all persons into model
+//        System.out.println("persons = " + persons);
 
     }
 

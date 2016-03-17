@@ -17,6 +17,7 @@ public class MainModel {
     private static String username;
     private static Settings settings;
     private static Filter filter;
+    public static String welcomeMsg;
 
 
     // TODO: Constructor here?
