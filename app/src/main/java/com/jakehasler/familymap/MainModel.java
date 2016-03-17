@@ -14,6 +14,7 @@ public class MainModel {
     private static String personID;
     private static String authToken;
     private static Person user;
+    private static String username;
     private static Settings settings;
     private static Filter filter;
 
@@ -45,6 +46,14 @@ public class MainModel {
         MainModel.user = user;
     }
 
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        MainModel.username = username;
+    }
+
     public static Settings getSettings() {
         return settings;
     }
@@ -60,4 +69,8 @@ public class MainModel {
     public static void setFilter(Filter filter) {
         MainModel.filter = filter;
     }
+
+
+
+
 }

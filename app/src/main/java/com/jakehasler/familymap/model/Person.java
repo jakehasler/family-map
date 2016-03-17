@@ -27,6 +27,10 @@ public class Person {
         this.events = events;
     }
 
+    public Person(String personId) {
+        this.personId = personId;
+    }
+
     public String getfName() {
         return fName;
     }

@@ -12,26 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.R;
+import com.jakehasler.familymap.async.Async;
+import com.jakehasler.familymap.model.Person;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpRetryException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 /**
  * Created by jakehasler on 3/16/16.
@@ -63,40 +52,16 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         try {
             loginBody.put("username", username.getText().toString());
             loginBody.put("password", password.getText().toString());
+            JSONObject loginRes = Async.doLogin(totalUrl, loginBody);
+            MainModel.setAuthToken(loginRes.getString("Authorization"));
+            MainModel.setUsername(loginRes.getString("userName"));
+            MainModel.setUser(new Person(loginRes.getString("personId")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        byte[] postData = loginBody.toString().getBytes(StandardCharsets.UTF_8);
-        int reqLength = postData.length;
-        String uri = "/user/login/";
-        URL url = new URL(totalUrl + uri);
-        System.out.println("totalUrl = " + totalUrl);
-        HttpURLConnection conn = null;
-        try {
-            System.out.println("Trying connection");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setInstanceFollowRedirects(false);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setRequestProperty("Content-Length", Integer.toString(reqLength));
-            DataOutputStream ds = new DataOutputStream(conn.getOutputStream());
-            ds.write(postData);
+        System.out.println("MainModel.getAuthToken() = " + MainModel.getAuthToken());
+        System.out.println("MainModel.getPersonId() = " + MainModel.getUser().getPersonId());
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder resOutput = new StringBuilder();
-            Scanner sc = new Scanner(br);
-            while(sc.hasNextLine()) {
-                resOutput.append(sc.nextLine());
-            }
-            System.out.println("resOutput = " + resOutput.toString());
-        }
-        catch(IOException e) {
-            System.out.println("e = " + e);
-        }
-        finally{
-            conn.disconnect();
-        }
     }
 
 
@@ -175,8 +140,5 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         public void onFragmentInteraction(Uri uri);
     }
 
-    /**
-     * Login Async Task
-     */
-//    public class Login extends AsyncTask<URL, Integer, >
+
 }
