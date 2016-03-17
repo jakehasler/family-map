@@ -1,6 +1,7 @@
 package com.jakehasler.familymap;
 
 import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,8 +15,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // Had to add these lines for the Network Calls?
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        setContentView(R.layout.activity_main);
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new LoginFragment()).commit();
