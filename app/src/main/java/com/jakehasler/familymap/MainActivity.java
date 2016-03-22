@@ -8,15 +8,17 @@ import android.widget.Toast;
 
 import com.jakehasler.familymap.login.LoginFragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
+import java.net.MalformedURLException;
 
-    private static LoginFragment loginFragment;
+public class MainActivity extends AppCompatActivity
+        implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener {
+
+    private static LoginFragment loginFragment = new LoginFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Had to add these lines for the Network Calls?
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -27,12 +29,21 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
         // Fragment to notify the activity when changes to load the map activity
 
+
     }
 
 
-
     public void onFragmentInteraction(Uri uri) {
-//        Toast toast = Toast.makeText(this, MainModel.welcomeMsg, Toast.LENGTH_SHORT);
-//        toast.show();
+
+    }
+
+    public void onComplete() {
+        try {
+            loginFragment.getPersonsAndEvents();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Toast toast = Toast.makeText(getBaseContext(), "OnComplete Called!", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

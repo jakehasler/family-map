@@ -1,7 +1,6 @@
 package com.jakehasler.familymap.login;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -32,6 +31,7 @@ import static com.jakehasler.familymap.MainModel.*;
 public class LoginFragment extends Fragment implements Button.OnClickListener {
 
     private OnFragmentInteractionListener listener;
+    private OnCompleteListener completeListener;
 
     private EditText username;
     private EditText password;
@@ -41,6 +41,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
     private String authToken;
     private String personId;
     private String statusMsg;
+    String totalUrl;
 
 
     public LoginFragment() {
@@ -52,7 +53,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
      */
     public void onLogin() throws MalformedURLException {
 
-        String totalUrl = "http://" + this.host.getText().toString() + ":" + this.port.getText().toString();
+        totalUrl = "http://" + this.host.getText().toString() + ":" + this.port.getText().toString();
         JSONObject loginBody = new JSONObject();
         try {
             loginBody.put("username", username.getText().toString());
@@ -87,6 +88,18 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
 //        // TODO: Put all persons into model
 //        System.out.println("persons = " + persons);
 
+        completeListener.onComplete();
+
+    }
+
+    public void getPersonsAndEvents() throws MalformedURLException{
+        JSONObject events = Async.getEvents(totalUrl);
+        // TODO: Put all events into model
+        System.out.println("events = " + events);
+
+        JSONObject persons = Async.getAllPersons(totalUrl);
+        // TODO: Put all persons into model
+        System.out.println("persons = " + persons);
     }
 
 
@@ -114,7 +127,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         super.onAttach(context);
         try {
             listener = (LoginFragment.OnFragmentInteractionListener) context;
-
+            completeListener = (OnCompleteListener)context;
         } catch (ClassCastException e) {
             throw new ClassCastException((context.toString() + " must implement OnFragmentInteractionListener"));
         }
@@ -163,6 +176,10 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
 
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public static interface OnCompleteListener {
+        public abstract void onComplete();
     }
 
 
