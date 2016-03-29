@@ -14,17 +14,14 @@ public class Person {
     private Person father;
     private Person mother;
     private Person spouse;
-    private TreeSet<Event> events;
+    private TreeSet<String> events;
 
-    public Person(String fName, String lName, String personId, String gender, Person father, Person mother, Person spouse, TreeSet<Event> events) {
+    public Person(String fName, String lName, String personId, String gender) {
         this.fName = fName;
         this.lName = lName;
         this.personId = personId;
         this.gender = gender;
-        this.father = father;
-        this.mother = mother;
-        this.spouse = spouse;
-        this.events = events;
+        events = new TreeSet<>();
     }
 
     public Person(String personId) {
@@ -87,11 +84,15 @@ public class Person {
         this.spouse = spouse;
     }
 
-    public TreeSet<Event> getEvents() {
+    public TreeSet<String> getEvents() {
         return events;
     }
 
-    public void setEvents(TreeSet<Event> events) {
+    public void setEvents(TreeSet<String> events) {
         this.events = events;
+    }
+
+    public void addEvent(String event) {
+        events.add(event);
     }
 }

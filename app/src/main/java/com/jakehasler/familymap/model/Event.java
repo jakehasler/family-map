@@ -12,16 +12,16 @@ public class Event {
 
     private String eventId;
     private PointF coords;
-    private Date date;
+    private int year;
     private String city;
     private String country;
     private String personId;
     private String name;
 
-    public Event(String eventId, PointF coords, Date date, String city, String country, String personId, String name) {
+    public Event(String eventId, PointF coords, int year, String city, String country, String personId, String name) {
         this.eventId = eventId;
         this.coords = coords;
-        this.date = date;
+        this.year = year;
         this.city = city;
         this.country = country;
         this.personId = personId;
@@ -45,12 +45,12 @@ public class Event {
         this.coords = coords;
     }
 
-    public Date getDate() {
-        return date;
+    public int getYear() {
+        return year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getCity() {

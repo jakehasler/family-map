@@ -28,7 +28,7 @@ public class MapFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener listener;
 
     public MapFragment() {
         // Required empty public constructor
@@ -70,26 +70,25 @@ public class MapFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+        if (listener != null) {
+            listener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        try {
+            listener = (MapFragment.OnFragmentInteractionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException((context.toString() + " must implement OnFragmentInteractionListener"));
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.jakehasler.familymap.login;
 
 import android.app.Activity;
+import android.graphics.PointF;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -16,12 +17,15 @@ import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.R;
 import com.jakehasler.familymap.async.Async;
+import com.jakehasler.familymap.model.Event;
 import com.jakehasler.familymap.model.Person;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 
 import static com.jakehasler.familymap.MainModel.*;
 
@@ -41,7 +45,6 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
     private String authToken;
     private String personId;
     private String statusMsg;
-    String totalUrl;
 
 
     public LoginFragment() {
@@ -53,16 +56,16 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
      */
     public void onLogin() throws MalformedURLException {
 
-        totalUrl = "http://" + this.host.getText().toString() + ":" + this.port.getText().toString();
+        MainModel.setTotalUrl("http://" + this.host.getText().toString() + ":" + this.port.getText().toString());
         JSONObject loginBody = new JSONObject();
         try {
             loginBody.put("username", username.getText().toString());
             loginBody.put("password", password.getText().toString());
-            JSONObject loginRes = Async.doLogin(totalUrl, loginBody);
+            JSONObject loginRes = Async.doLogin(MainModel.getTotalUrl(), loginBody);
             MainModel.setAuthToken(loginRes.getString("Authorization"));
             setUsername(loginRes.getString("userName"));
             setUser(new Person(loginRes.getString("personId")));
-            JSONObject currUser = Async.getSinglePerson(totalUrl, getUser().getPersonId());
+            JSONObject currUser = Async.getSinglePerson(MainModel.getTotalUrl(), getUser().getPersonId());
             getUser().setfName(currUser.getString("firstName"));
             getUser().setlName(currUser.getString("lastName"));
             statusMsg = "Welcome " + getUser().getfName() + " " + getUser().getlName() + "!";
@@ -80,26 +83,61 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         Toast toast = Toast.makeText(this.getContext(), statusMsg, Toast.LENGTH_SHORT);
         toast.show();
 
-//        JSONObject events = Async.getEvents(totalUrl);
-//        // TODO: Put all events into model
-//        System.out.println("events = " + events);
-//
-//        JSONObject persons = Async.getAllPersons(totalUrl);
-//        // TODO: Put all persons into model
-//        System.out.println("persons = " + persons);
-
         completeListener.onComplete();
 
     }
 
-    public void getPersonsAndEvents() throws MalformedURLException{
-        JSONObject events = Async.getEvents(totalUrl);
-        // TODO: Put all events into model
-        System.out.println("events = " + events);
+    public void getPersonsAndEvents() throws MalformedURLException {
+        System.out.println("Inside persons and Events");
+        System.out.println("totalUrl = " + MainModel.getTotalUrl());
+        JSONObject events = Async.getEvents(MainModel.getTotalUrl());
+        JSONObject persons = Async.getAllPersons(MainModel.getTotalUrl());
+        try {
+            JSONArray eventArr = events.getJSONArray("data");
+            JSONArray personArr = persons.getJSONArray("data");
+            for(int i = 0; i < personArr.length(); i++) {
+                JSONObject obj = personArr.getJSONObject(i);
+                String id = obj.getString("personID");
+                String fName = obj.getString("firstName");
+                String lName = obj.getString("lastName");
+                String gender = obj.getString("gender");
+                Person newPerson = new Person(fName, lName, id, gender);
+                if(obj.has("spouse")) {
+                    String spouseId = obj.getString("spouse");
+                    newPerson.setSpouse(new Person(spouseId));
+                }
+                if(obj.has("father")) {
+                    String father = obj.getString("father");
+                    newPerson.setFather(new Person(father));
+                }
+                if(obj.has("mother")) {
+                    String mother = obj.getString("mother");
+                    newPerson.setMother(new Person(mother));
+                }
+                MainModel.addPerson(newPerson);
+            }
+            for(int i = 0; i < eventArr.length(); i++) {
+                JSONObject obj = eventArr.getJSONObject(i);
+                String id = obj.getString("eventID");
+                String personId = obj.getString("personID");
+                float lat = (float)obj.getDouble("latitude");
+                float lon = (float)obj.getDouble("longitude");
+                String country = obj.getString("country");
+                String city = obj.getString("city");
+                String name = obj.getString("description");
+                int year = obj.getInt("year");
+                Event newEvent = new Event(id, new PointF(lat, lon), year, city, country, personId, name);
+                // Adding eventID String to the person itself.
+                MainModel.getPersonMap().get(personId).addEvent(id);
+                MainModel.addEvent(newEvent);
+            }
 
-        JSONObject persons = Async.getAllPersons(totalUrl);
-        // TODO: Put all persons into model
-        System.out.println("persons = " + persons);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // TODO: Put all events into model
+        System.out.println("Events and Persons loaded into the model!");
+
     }
 
 

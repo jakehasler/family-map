@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.jakehasler.familymap.login.LoginFragment;
+import com.jakehasler.familymap.model.MapFragment;
 
 import java.net.MalformedURLException;
 
 public class MainActivity extends AppCompatActivity
-        implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener {
+        implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener, MapFragment.OnFragmentInteractionListener {
 
     private static LoginFragment loginFragment = new LoginFragment();
 
@@ -45,5 +46,9 @@ public class MainActivity extends AppCompatActivity
         }
         Toast toast = Toast.makeText(getBaseContext(), "OnComplete Called!", Toast.LENGTH_SHORT);
         toast.show();
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new MapFragment()).commit();
+
     }
 }
