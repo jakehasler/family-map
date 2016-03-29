@@ -1,5 +1,6 @@
 package com.jakehasler.familymap;
 
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener, MapFragment.OnFragmentInteractionListener {
 
     private static LoginFragment loginFragment = new LoginFragment();
+    private android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LoginFragment()).commit();
+            transaction.add(R.id.container, new LoginFragment()).commit();
         }
         // Fragment to notify the activity when changes to load the map activity
 
@@ -46,9 +47,10 @@ public class MainActivity extends AppCompatActivity
         }
         Toast toast = Toast.makeText(getBaseContext(), "OnComplete Called!", Toast.LENGTH_SHORT);
         toast.show();
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new MapFragment()).commit();
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new MapFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
 
     }
 }
