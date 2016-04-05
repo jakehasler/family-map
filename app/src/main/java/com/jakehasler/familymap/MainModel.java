@@ -1,5 +1,10 @@
 package com.jakehasler.familymap;
 
+import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
+
 import com.jakehasler.familymap.login.LoginFragment;
 import com.jakehasler.familymap.model.Event;
 import com.jakehasler.familymap.model.Filter;
@@ -24,6 +29,7 @@ public class MainModel {
     public static String welcomeMsg;
     public static HashMap<String, Event> eventMap = new HashMap<>();
     public static HashMap<String, Person> personMap = new HashMap<>();
+    public static Point screenSize;
 
 
     // TODO: Constructor here?
@@ -107,5 +113,13 @@ public class MainModel {
 
     public static void addPerson(Person person) {
         personMap.put(person.getPersonId(), person);
+    }
+
+    public static Point getScreenSize() {
+        return screenSize;
+    }
+
+    public static void setScreenSize(Point screenSize) {
+        MainModel.screenSize = screenSize;
     }
 }

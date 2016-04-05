@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.R;
@@ -126,7 +127,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
                 String city = obj.getString("city");
                 String name = obj.getString("description");
                 int year = obj.getInt("year");
-                Event newEvent = new Event(id, new PointF(lat, lon), year, city, country, personId, name);
+                Event newEvent = new Event(id, new LatLng(lat, lon), year, city, country, personId, name);
                 // Adding eventID String to the person itself.
                 MainModel.getPersonMap().get(personId).addEvent(id);
                 MainModel.addEvent(newEvent);
