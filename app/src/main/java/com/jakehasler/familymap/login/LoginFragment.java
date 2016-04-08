@@ -47,7 +47,6 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
     private String personId;
     private String statusMsg;
 
-
     public LoginFragment() {
     }
 

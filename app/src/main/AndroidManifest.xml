@@ -35,7 +35,18 @@
 
         <activity
             android:name=".model.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".PersonStats"
+            android:label="@string/title_activity_person_stats"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Search"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Filter"
+            android:label="@string/title_activity_filter"></activity>
     </application>
 
 </manifest>

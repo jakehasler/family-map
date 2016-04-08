@@ -1,5 +1,6 @@
 package com.jakehasler.familymap;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -7,9 +8,7 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -46,6 +45,32 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.toString()) {
+            case "Search":
+                Intent intentSearch = new Intent(this, Search.class);
+                startActivity(intentSearch);
+                break;
+            case "People":
+                Intent intentPeople = new Intent(this, PersonStats.class);
+                startActivity(intentPeople);
+                break;
+            case "Filter":
+                Intent intentFilter = new Intent(this, Filter.class);
+                startActivity(intentFilter);
+                break;
+        }
+
+        return true;
+    }
 
     public void onFragmentInteraction(Uri uri) {
 
@@ -69,7 +94,10 @@ public class MainActivity extends AppCompatActivity
             Map.Entry pair = (Map.Entry)it.next();
             Event ev = (Event)pair.getValue();
             Person curr = MainModel.getPersonMap().get(ev.getPersonId());
-            map.addMarker(new MarkerOptions().title(curr.getfName() + " " + curr.getlName()).snippet(ev.getName() + " - j" + ev.getYear()).position(ev.getCoords()));
+            map.addMarker(new MarkerOptions()
+                    .title(curr.getfName() + " " + curr.getlName())
+                    .snippet(ev.getName() + " - " + ev.getYear())
+                    .position(ev.getCoords()));
         }
     }
 
