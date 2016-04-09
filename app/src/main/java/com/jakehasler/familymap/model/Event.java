@@ -30,6 +30,8 @@ public class Event {
         this.name = name;
     }
 
+    // TODO: Add getter for description
+
 
     public String getEventId() {
         return eventId;
@@ -80,10 +82,22 @@ public class Event {
     }
 
     public String getName() {
-        return name;
+        String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return capName;
     }
 
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getDetails() {
+        String details = "";
+        String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        details = capName + ": " + city + ", " + country + " (" + year + ")";
+
+        return details;
+    }
+
+
+
 }

@@ -1,5 +1,7 @@
 package com.jakehasler.familymap;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.graphics.Point;
 import android.support.v4.app.FragmentManager;
@@ -15,18 +17,18 @@ import android.widget.Toast;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.jakehasler.familymap.login.LoginFragment;
-import com.jakehasler.familymap.model.Event;
-import com.jakehasler.familymap.model.Person;
+import com.jakehasler.familymap.model.*;
+import com.jakehasler.familymap.model.MapFragment;
 
 import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
-        implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener, OnMapReadyCallback {
+        implements LoginFragment.OnFragmentInteractionListener, LoginFragment.OnCompleteListener, OnMapReadyCallback, MapFragment.OnFragmentInteractionListener {
 
     private static LoginFragment loginFragment = new LoginFragment();
-    private static SupportMapFragment mMapFragment = new SupportMapFragment();
+    private static com.jakehasler.familymap.model.MapFragment mMapFragment = new MapFragment();
     //private GoogleMap googleMap = ((com.google.android.gms.maps.MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMapAsync());
     private ProgressBar spinner; // TODO: Implement this. http://www.tutorialspoint.com/android/android_loading_spinner.htm
     private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -54,22 +56,28 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.toString()) {
-            case "Search":
-                Intent intentSearch = new Intent(this, Search.class);
-                startActivity(intentSearch);
-                break;
-            case "People":
-                Intent intentPeople = new Intent(this, PersonStats.class);
-                startActivity(intentPeople);
-                break;
-            case "Filter":
-                Intent intentFilter = new Intent(this, Filter.class);
-                startActivity(intentFilter);
-                break;
-        }
+        if(MainModel.getAuthToken() != null) {
+            switch(item.toString()) {
+                case "Search":
+                    Intent intentSearch = new Intent(this, Search.class);
+                    startActivity(intentSearch);
+                    break;
+                case "People":
+                    Intent intentPeople = new Intent(this, PersonStats.class);
+                    startActivity(intentPeople);
+                    break;
+                case "Filter":
+                    Intent intentFilter = new Intent(this, Filter.class);
+                    startActivity(intentFilter);
+                    break;
+            }
 
-        return true;
+            return true;
+        }
+        else {
+            Toast.makeText(this, "Must Be Logged In to Use This Feature", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     public void onFragmentInteraction(Uri uri) {
@@ -79,9 +87,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap map) {
-        ViewGroup.LayoutParams params = mMapFragment.getView().getLayoutParams();
-        params.height = MainModel.getScreenSize().y;
-        mMapFragment.getView().setLayoutParams(params);
         LatLng provo = new LatLng(40.246507, -111.645781);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 5));
         map.addMarker(new MarkerOptions()
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity
             Person curr = MainModel.getPersonMap().get(ev.getPersonId());
             map.addMarker(new MarkerOptions()
                     .title(curr.getfName() + " " + curr.getlName())
-                    .snippet(ev.getName() + " - " + ev.getYear())
+                    .snippet(ev.getDetails())
                     .position(ev.getCoords()));
         }
     }
@@ -111,12 +116,18 @@ public class MainActivity extends AppCompatActivity
         Toast toast = Toast.makeText(getBaseContext(), "OnComplete Called!", Toast.LENGTH_SHORT);
         toast.show();
         FragmentManager fm = this.getSupportFragmentManager();
-        mMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
-        Toast.makeText(MainActivity.this, "Opening map...", Toast.LENGTH_SHORT).show();
-        mMapFragment = new SupportMapFragment();
-        mMapFragment.getMapAsync(this);
-        fm.beginTransaction().replace(R.id.container, mMapFragment).commit();
+        /*
+        Instead of making a support fragment, make an instance on My Map fragment, and have that take care of everything else
+         */
 
+//        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        inflater.inflate(R.layout.fragment_map, null);
+        //mMapFragment = (MapFragment) fm.findFragmentById(R.id.map);
+        Toast.makeText(MainActivity.this, "Opening map...", Toast.LENGTH_SHORT).show();
+        mMapFragment = new MapFragment();
+        //mMapFragment.getMapAsync(this);
+        fm.beginTransaction().replace(R.id.container, mMapFragment).commit();
+        //View view = getLayoutInflater().inflate(R.layout.);
     }
 
     public void setScreenSize() {

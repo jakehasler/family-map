@@ -44,6 +44,11 @@ public class Person {
         this.lName = lName;
     }
 
+    public String getFullName() {
+        return fName + " " + lName;
+    }
+
+
     public String getPersonId() {
         return personId;
     }
@@ -94,5 +99,19 @@ public class Person {
 
     public void addEvent(String event) {
         events.add(event);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "fName='" + fName + '\'' +
+                ", lName='" + lName + '\'' +
+                ", personId='" + personId + '\'' +
+                ", gender='" + gender + '\'' +
+                ", father=" + father +
+                ", mother=" + mother +
+                ", spouse=" + spouse +
+                ", events=" + events +
+                '}';
     }
 }

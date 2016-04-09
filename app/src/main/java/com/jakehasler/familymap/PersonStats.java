@@ -18,7 +18,7 @@ public class PersonStats extends AppCompatActivity {
         setContentView(R.layout.activity_person_stats);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         String statusMsg = "Welcome " + getUser().getfName() + " " + getUser().getlName() + "!";
         Toast toast = Toast.makeText(this.getBaseContext(), statusMsg, Toast.LENGTH_SHORT);
         toast.show();

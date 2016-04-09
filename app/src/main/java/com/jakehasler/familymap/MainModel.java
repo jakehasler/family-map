@@ -122,4 +122,12 @@ public class MainModel {
     public static void setScreenSize(Point screenSize) {
         MainModel.screenSize = screenSize;
     }
+
+    public static Person getPersonById(String id) {
+        return personMap.get(id);
+    }
+
+    public static Event getEventById(String id) {
+        return eventMap.get(id);
+    }
 }
