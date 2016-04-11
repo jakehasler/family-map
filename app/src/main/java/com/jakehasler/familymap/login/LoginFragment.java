@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.R;
@@ -26,7 +28,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 import static com.jakehasler.familymap.MainModel.*;
 
@@ -135,6 +140,21 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        // Building Children List for Each Person
+        Iterator it = MainModel.getPersonMap().entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Person per = (Person)pair.getValue();
+            String id = per.getPersonId();
+            if(per.getFather() != null) {
+                MainModel.addChildToId(per.getFather().getPersonId(), id);
+            }
+            if(per.getMother() != null) {
+                MainModel.addChildToId(per.getMother().getPersonId(), id);
+            }
+        }
+
         // TODO: Put all events into model
         System.out.println("Events and Persons loaded into the model!");
 

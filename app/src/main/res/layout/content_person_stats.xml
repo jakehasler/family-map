@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="16dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -12,4 +12,104 @@
     tools:context="com.jakehasler.familymap.PersonStats"
     tools:showIn="@layout/activity_person_stats">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="FirstName"
+        android:id="@+id/statFirstName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="28sp"
+        android:textColor="#3d3d3d" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="LastName"
+        android:id="@+id/statLastName"
+        android:textSize="28sp"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/statFirstName"
+        android:layout_marginLeft="25dp"
+        android:textColor="#3d3d3d" />
+
+    <TextView
+        android:id="@+id/line"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:paddingTop="5dip"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/statFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d6d6d6"
+        android:layout_marginTop="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="FIRST"
+        android:id="@+id/fNameLabel"
+        android:layout_below="@+id/line"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="LAST"
+        android:id="@+id/lNameLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/statFirstName"
+        android:layout_marginLeft="25dp"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="SEX"
+        android:id="@+id/genderLabel"
+        android:layout_below="@+id/line"
+        android:layout_toRightOf="@+id/statLastName"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="M"
+        android:id="@+id/statGender"
+        android:textSize="28sp"
+        android:textColor="#3d3d3d"
+        android:layout_above="@+id/line"
+        android:layout_toRightOf="@+id/statLastName"
+        android:layout_toEndOf="@+id/statLastName"
+        android:layout_marginLeft="25dp"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventList"
+        android:layout_below="@+id/fNameLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/familyList"
+        android:layout_below="@+id/eventList"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
 </RelativeLayout>

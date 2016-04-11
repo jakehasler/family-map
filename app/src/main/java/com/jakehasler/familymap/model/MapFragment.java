@@ -1,6 +1,7 @@
 package com.jakehasler.familymap.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
+import com.jakehasler.familymap.PersonStats;
 import com.jakehasler.familymap.R;
 
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private View mPersonView;
     private HashMap markerMap = new HashMap<Marker, ArrayList<String>>();
+    private ArrayList<String> mPersonEvent = new ArrayList();
 
     private OnFragmentInteractionListener listener;
 
@@ -99,7 +102,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 // Start activity if there is a person inside of it
-                System.out.println("PersonDetail Clicked!");
+            if(mPersonEvent.size() == 2) {
+                Intent intentPeople = new Intent(getView().getContext(), PersonStats.class);
+                MainModel.setCurrPerson(mPersonEvent.get(0));
+                startActivity(intentPeople);
+                System.out.println(mPersonEvent.get(0));
+            } else Toast.makeText(getView().getContext(), "Please Select a Marker", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -124,30 +132,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap map) {
-        // Set Marker Listener
-        // Change Icon Value, and Change Text Values
-        // Grab stuff from the marker, and then put them in the sub fragment
-        //RelativeLayout personDetail = (RelativeLayout) R.id.personDetail;
-        // pass ina node, you can store the nodes
-        //
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                // set active person + event is
-                // Update the view at the bottom
-                // make own function at the bottom
-                // check person not null, update the strings and the icon
-                // pass person as parameter into new intent, start new person activity
                 System.out.println("marker Clicked! = " + marker);
-                ArrayList personEvent = (ArrayList)markerMap.get(marker);
-                System.out.println(MainModel.getPersonById((String) personEvent.get(0)).getFullName());
-                System.out.println(MainModel.getEventById((String) personEvent.get(1)).getDetails());
-                String fullName = MainModel.getPersonById((String) personEvent.get(0)).getFullName();
-                String details = MainModel.getEventById((String) personEvent.get(1)).getDetails();
+                mPersonEvent = (ArrayList)markerMap.get(marker);
+                System.out.println(MainModel.getPersonById((String) mPersonEvent.get(0)).getFullName());
+                System.out.println(MainModel.getEventById((String) mPersonEvent.get(1)).getDetails());
+                String fullName = MainModel.getPersonById((String) mPersonEvent.get(0)).getFullName();
+                String details = MainModel.getEventById((String) mPersonEvent.get(1)).getDetails();
                 TextView p = (TextView)mPersonView.findViewById(R.id.mapPersonName);
                 p.setText(fullName);
                 TextView t = (TextView)mPersonView.findViewById(R.id.mapPersonEvent);
                 t.setText(details);
+                // TODO: Change M/F Icon Here!!
                 return false;
             }
         });

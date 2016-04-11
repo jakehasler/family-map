@@ -113,21 +113,9 @@ public class MainActivity extends AppCompatActivity
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Toast toast = Toast.makeText(getBaseContext(), "OnComplete Called!", Toast.LENGTH_SHORT);
-        toast.show();
         FragmentManager fm = this.getSupportFragmentManager();
-        /*
-        Instead of making a support fragment, make an instance on My Map fragment, and have that take care of everything else
-         */
-
-//        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        inflater.inflate(R.layout.fragment_map, null);
-        //mMapFragment = (MapFragment) fm.findFragmentById(R.id.map);
-        Toast.makeText(MainActivity.this, "Opening map...", Toast.LENGTH_SHORT).show();
         mMapFragment = new MapFragment();
-        //mMapFragment.getMapAsync(this);
         fm.beginTransaction().replace(R.id.container, mMapFragment).commit();
-        //View view = getLayoutInflater().inflate(R.layout.);
     }
 
     public void setScreenSize() {

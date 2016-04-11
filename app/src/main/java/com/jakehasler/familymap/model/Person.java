@@ -15,6 +15,7 @@ public class Person {
     private Person mother;
     private Person spouse;
     private TreeSet<String> events;
+    private TreeSet<String> children;
 
     public Person(String fName, String lName, String personId, String gender) {
         this.fName = fName;
@@ -22,6 +23,7 @@ public class Person {
         this.personId = personId;
         this.gender = gender;
         events = new TreeSet<>();
+        children = new TreeSet<>();
     }
 
     public Person(String personId) {
@@ -99,6 +101,18 @@ public class Person {
 
     public void addEvent(String event) {
         events.add(event);
+    }
+
+    public void addChild(String child) {
+        children.add(child);
+    }
+
+    public TreeSet<String> getChildren() {
+        return children;
+    }
+
+    public void setChildren(TreeSet<String> children) {
+        this.children = children;
     }
 
     @Override

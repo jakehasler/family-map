@@ -27,8 +27,11 @@ public class MainModel {
     private static Filter filter;
     private static String totalUrl;
     public static String welcomeMsg;
+    public static String currentPerson;
     public static HashMap<String, Event> eventMap = new HashMap<>();
     public static HashMap<String, Person> personMap = new HashMap<>();
+    public static HashMap<String, Event> filteredEvents = new HashMap<>();
+    public static String currentFilter;
     public static Point screenSize;
 
 
@@ -129,5 +132,17 @@ public class MainModel {
 
     public static Event getEventById(String id) {
         return eventMap.get(id);
+    }
+
+    public static String getCurrPerson() {
+        return currentPerson;
+    }
+
+    public static void setCurrPerson(String currentPerson) {
+        MainModel.currentPerson = currentPerson;
+    }
+
+    public static void addChildToId(String parentId, String childId) {
+        personMap.get(parentId).addChild(childId);
     }
 }

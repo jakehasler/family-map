@@ -39,7 +39,8 @@
             android:layout_alignLeft="@+id/mapPersonImage"
             android:layout_toRightOf="@+id/mapPersonImage"
             android:layout_marginLeft="65dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:textColor="#3d3d3d" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
