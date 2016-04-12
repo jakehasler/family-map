@@ -108,7 +108,7 @@
         android:layout_below="@+id/password"
         android:layout_alignLeft="@+id/password"
         android:layout_alignStart="@+id/password"
-        android:text="192.168.1.8" />
+        android:text="192.168.1.15" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
         android:layout_below="@+id/host"
         android:layout_alignLeft="@+id/host"
         android:layout_alignStart="@+id/host"
-        android:text="8080" />
+        android:text="9999" />
 
     <Button
         android:layout_width="wrap_content"

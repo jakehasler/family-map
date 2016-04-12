@@ -1,5 +1,9 @@
 package com.jakehasler.familymap.model;
 
+import com.jakehasler.familymap.MainModel;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 /**
@@ -15,7 +19,7 @@ public class Person {
     private Person mother;
     private Person spouse;
     private TreeSet<String> events;
-    private TreeSet<String> children;
+    private ArrayList<String> children;
 
     public Person(String fName, String lName, String personId, String gender) {
         this.fName = fName;
@@ -23,7 +27,7 @@ public class Person {
         this.personId = personId;
         this.gender = gender;
         events = new TreeSet<>();
-        children = new TreeSet<>();
+        children = new ArrayList<>();
     }
 
     public Person(String personId) {
@@ -107,13 +111,73 @@ public class Person {
         children.add(child);
     }
 
-    public TreeSet<String> getChildren() {
+    public ArrayList<String> getChildren() {
         return children;
     }
 
-    public void setChildren(TreeSet<String> children) {
+    public void setChildren(ArrayList<String> children) {
         this.children = children;
     }
+
+    public ArrayList<String> getFamStrings() {
+        ArrayList<String> currFam = new ArrayList<>();
+        if(father != null) {
+            currFam.add("Father: " + MainModel.getPersonById(father.getPersonId()).getFullName());
+        }
+        if(mother != null) {
+            currFam.add("Mother: " + MainModel.getPersonById(mother.getPersonId()).getFullName());
+        }
+        if(spouse != null) {
+            currFam.add("Spouse: " + MainModel.getPersonById(spouse.getPersonId()).getFullName());
+        }
+        if(children.size() > 0) {
+            for(String child : children) {
+                String childStr = "Child: " + MainModel.getPersonById(child).getFullName();
+                currFam.add(childStr);
+            }
+        }
+        return currFam;
+    }
+
+    public ArrayList<String> getFamIds() {
+        ArrayList<String> currFam = new ArrayList<>();
+        if(father != null) {
+            currFam.add(father.getPersonId());
+        }
+        if(mother != null) {
+            currFam.add(mother.getPersonId());
+        }
+        if(spouse != null) {
+            currFam.add(spouse.getPersonId());
+        }
+        if(children.size() > 0) {
+            for(String child : children) {
+                currFam.add(child);
+            }
+        }
+        return currFam;
+    }
+
+    public HashMap<Person, String> getFamPersons() {
+        HashMap<Person, String> currFam = new HashMap<>();
+        if(father != null) {
+            currFam.put( MainModel.getPersonById(father.getPersonId()), "Father");
+        }
+        if(mother != null) {
+            currFam.put(MainModel.getPersonById(mother.getPersonId()), "Mother");
+        }
+        if(spouse != null) {
+            currFam.put(MainModel.getPersonById(spouse.getPersonId()), "Spouse");
+        }
+        if(children.size() > 0) {
+            for(String child : children) {
+                currFam.put(MainModel.getPersonById(child), "Child");
+            }
+        }
+        return currFam;
+    }
+
+
 
     @Override
     public String toString() {

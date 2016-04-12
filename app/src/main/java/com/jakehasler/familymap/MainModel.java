@@ -11,7 +11,10 @@ import com.jakehasler.familymap.model.Filter;
 import com.jakehasler.familymap.model.Person;
 import com.jakehasler.familymap.model.Settings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by jakehasler on 3/16/16.
@@ -28,8 +31,10 @@ public class MainModel {
     private static String totalUrl;
     public static String welcomeMsg;
     public static String currentPerson;
+    public static String currentEvent;
     public static HashMap<String, Event> eventMap = new HashMap<>();
     public static HashMap<String, Person> personMap = new HashMap<>();
+    public static TreeMap<String, ArrayList<String>> eventNames = new TreeMap<>();
     public static HashMap<String, Event> filteredEvents = new HashMap<>();
     public static String currentFilter;
     public static Point screenSize;
@@ -134,6 +139,14 @@ public class MainModel {
         return eventMap.get(id);
     }
 
+    public static String getCurrEvent() {
+        return currentEvent;
+    }
+
+    public static void setCurrEvent(String currentEvent) {
+        MainModel.currentEvent = currentEvent;
+    }
+
     public static String getCurrPerson() {
         return currentPerson;
     }
@@ -145,4 +158,27 @@ public class MainModel {
     public static void addChildToId(String parentId, String childId) {
         personMap.get(parentId).addChild(childId);
     }
+
+    public static TreeMap<String, ArrayList<String>> getEventNames() {
+        return eventNames;
+    }
+
+    public static boolean ifEventName(String newName) {
+        if(eventNames.containsKey(newName)) return true;
+        else return false;
+
+    }
+
+    public static void addEventName(String name, String eventId) {
+        if(eventNames.containsKey(name)) {
+            eventNames.get(name).add(eventId);
+        }
+        else {
+            ArrayList<String> ids = new ArrayList<>();
+            ids.add(eventId);
+            eventNames.put(name, ids);
+        }
+    }
+
+
 }

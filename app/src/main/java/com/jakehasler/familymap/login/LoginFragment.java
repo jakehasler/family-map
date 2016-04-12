@@ -130,6 +130,7 @@ public class LoginFragment extends Fragment implements Button.OnClickListener {
                 String country = obj.getString("country");
                 String city = obj.getString("city");
                 String name = obj.getString("description");
+                MainModel.addEventName(name, id);
                 int year = obj.getInt("year");
                 Event newEvent = new Event(id, new LatLng(lat, lon), year, city, country, personId, name);
                 // Adding eventID String to the person itself.

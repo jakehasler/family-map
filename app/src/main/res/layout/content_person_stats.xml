@@ -95,21 +95,67 @@
         android:layout_toEndOf="@+id/statLastName"
         android:layout_marginLeft="25dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="EVENTS"
+        android:id="@+id/eventsLabel"
+        android:layout_below="@+id/fNameLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/line2"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:paddingTop="5dip"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/eventsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d6d6d6"
+        android:layout_marginTop="3dp" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/eventList"
-        android:layout_below="@+id/fNameLabel"
+        android:layout_below="@+id/line2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="FAMILY"
+        android:id="@+id/familyLabel"
+        android:layout_below="@+id/eventList"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/line3"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:paddingTop="5dip"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/familyLabel"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d6d6d6"
+        android:layout_marginTop="3dp" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/familyList"
-        android:layout_below="@+id/eventList"
+        android:layout_below="@+id/line3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="8dp" />
 </RelativeLayout>

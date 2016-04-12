@@ -1,5 +1,6 @@
 package com.jakehasler.familymap;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,7 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakehasler.familymap.helpers.EventListViewAdapter;
+import com.jakehasler.familymap.helpers.FamListViewAdapter;
 import com.jakehasler.familymap.model.Event;
+import com.jakehasler.familymap.model.MapsActivity;
 import com.jakehasler.familymap.model.Person;
 
 import java.util.ArrayList;
@@ -32,8 +37,8 @@ public class PersonStats extends AppCompatActivity {
     private ArrayList<String> currEvents = new ArrayList();
     private HashMap<String, Person> currFam = new HashMap();
     private String currPersonId;
-    private ArrayAdapter<String> evListAdapter;
-    private ArrayAdapter<String> famListAdapter;
+    private EventListViewAdapter evListAdapter;
+    private FamListViewAdapter famListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class PersonStats extends AppCompatActivity {
         setContentView(R.layout.activity_person_stats);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Configure the toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Toast toast = Toast.makeText(this.getBaseContext(), MainModel.getPersonById(MainModel.getCurrPerson()).getFullName(), Toast.LENGTH_SHORT);
         toast.show();
@@ -60,21 +67,9 @@ public class PersonStats extends AppCompatActivity {
 
         for(String event : eventIds) {
             Event ev = MainModel.getEventById(event);
-            String descrip = ev.getDetails();
+            String descrip = ev.getEventId();
             currEvents.add(descrip);
         }
-
-        if(currPerson.getFather() != null) {
-            currFam.put("Father", MainModel.getPersonById(currPerson.getFather().getPersonId()));
-        }
-        if(currPerson.getMother() != null) {
-            currFam.put("Mother", MainModel.getPersonById(currPerson.getMother().getPersonId()));
-        }
-        if(currPerson.getSpouse() != null) {
-            currFam.put("Spouse", MainModel.getPersonById(currPerson.getSpouse().getPersonId()));
-        }
-
-        System.out.println(currPerson.getChildren().toString());
     }
 
     public void fillInfo() {
@@ -89,24 +84,37 @@ public class PersonStats extends AppCompatActivity {
         // Filling in Event List
         //ExpandableListAdapter evListAdapter;
         ListView eventList = (ListView)findViewById(R.id.eventList);
-        evListAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textItem, currEvents);
+        evListAdapter = new EventListViewAdapter(this, currEvents);
         eventList.setAdapter(evListAdapter);
         // Filling in Family List
         ListView familyList = (ListView)findViewById(R.id.familyList);
-        ArrayList<String> fam = new ArrayList<>();
-        Iterator it = currFam.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            String title = (String) pair.getKey();
-            Person per = (Person) pair.getValue();
-            String name = (String) per.getFullName();
-            String famMember = title + ": " + name;
-            fam.add(famMember);
-        }
-        famListAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textItem, fam);
+        HashMap<Person, String> fam = MainModel.getPersonById(currPersonId).getFamPersons();
+        famListAdapter = new FamListViewAdapter(this, fam);
         familyList.setAdapter(famListAdapter);
     }
 
+    public void onFamilySelected(Person p) {
+        MainModel.setCurrPerson(p.getPersonId());
+        // Start a new person activity
+        startActivity(new Intent(this, PersonStats.class));
+    }
 
+    public void onEventSelected(Event ev) {
+        MainModel.setCurrEvent(ev.getEventId());
+        // Start a new person activity
+        startActivity(new Intent(this, MapsActivity.class));
+    }
+
+    // Enable back navigation
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Back button
+        if(item.getItemId() == android.R.id.home) { //app icon in action bar clicked; go back
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }
