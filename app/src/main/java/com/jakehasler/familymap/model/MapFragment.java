@@ -132,6 +132,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap map) {
+        if (MainModel.getCurrEvent() != null) {
+            System.out.println("Navigating...");
+            Event selectedEvent = MainModel.getEventById(MainModel.getCurrEvent());
+            System.out.println("selectedEvent.getCoords() = " + selectedEvent.getCoords());
+            LatLng coords = selectedEvent.getCoords();
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 8));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 7.0f));
+        }
+        else {
+            LatLng provo = new LatLng(40.246507, -111.645781);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 3));
+        }
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -149,8 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
-        LatLng provo = new LatLng(40.246507, -111.645781);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 3));
+
         // Adding all events from the map
         Iterator it = MainModel.getEventMap().entrySet().iterator();
         while(it.hasNext()) {

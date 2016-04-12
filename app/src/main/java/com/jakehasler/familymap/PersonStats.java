@@ -99,10 +99,10 @@ public class PersonStats extends AppCompatActivity {
         startActivity(new Intent(this, PersonStats.class));
     }
 
-    public void onEventSelected(Event ev) {
-        MainModel.setCurrEvent(ev.getEventId());
+    public void onEventSelected(String ev) {
+        MainModel.setCurrEvent(ev);
         // Start a new person activity
-        startActivity(new Intent(this, MapsActivity.class));
+        startActivity(new Intent(this, MapActivity.class));
     }
 
     // Enable back navigation

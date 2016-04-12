@@ -44,7 +44,8 @@
             android:name=".Search"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Filter"></activity>
+        <activity android:name=".Filter" />
+        <activity android:name=".MapActivity"></activity>
     </application>
 
 </manifest>
