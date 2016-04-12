@@ -34,7 +34,10 @@ public class MainModel {
     public static String currentPerson;
     public static String currentEvent;
     public static boolean ifLines = false;
-    public static int lifeStoryColor;
+    public static boolean ifTreeLines = false;
+    public static boolean ifSpouseLines = false;
+    public static int lifeStoryColor = Color.RED;
+    public static int treeColor = Color.GREEN;
     public static HashMap<String, Event> eventMap = new HashMap<>();
     public static HashMap<String, Person> personMap = new HashMap<>();
     public static TreeMap<String, ArrayList<String>> eventNames = new TreeMap<>();
@@ -197,5 +200,29 @@ public class MainModel {
 
     public static void setLifeStoryColor(int lifeStoryColor) {
         MainModel.lifeStoryColor = lifeStoryColor;
+    }
+
+    public static int getTreeColor() {
+        return treeColor;
+    }
+
+    public static void setTreeColor(int treeColor) {
+        MainModel.treeColor = treeColor;
+    }
+
+    public static boolean ifTreeLines() {
+        return ifTreeLines;
+    }
+
+    public static void setIfTreeLines(boolean ifTreeLines) {
+        MainModel.ifTreeLines = ifTreeLines;
+    }
+
+    public static boolean ifSpouseLines() {
+        return ifSpouseLines;
+    }
+
+    public static void setIfSpouseLines(boolean ifSpouseLines) {
+        MainModel.ifSpouseLines = ifSpouseLines;
     }
 }

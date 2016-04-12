@@ -1,5 +1,6 @@
 package com.jakehasler.familymap;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -55,6 +56,12 @@ public class MapActivity extends AppCompatActivity implements MapFragment.OnFrag
         if(item.getItemId() == android.R.id.home) { //app icon in action bar clicked; go back
             finish();
             return true;
+        }
+        switch(item.toString()) {
+            case "Settings":
+                Intent intentSettings = new Intent(this, Settings.class);
+                startActivity(intentSettings);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

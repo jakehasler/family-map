@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -25,10 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.jakehasler.familymap.MainActivity;
-import com.jakehasler.familymap.MainModel;
-import com.jakehasler.familymap.PersonStats;
-import com.jakehasler.familymap.R;
+import com.jakehasler.familymap.*;
+import com.jakehasler.familymap.Settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -187,6 +186,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
+
     public void renderLines(ArrayList<LatLng> coords, GoogleMap theMap) {
         // Create the PolylineOptions. This creates a line between the specified points.
         float width = 5;
@@ -220,4 +221,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
