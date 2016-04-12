@@ -2,6 +2,7 @@ package com.jakehasler.familymap.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.jakehasler.familymap.MainActivity;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.PersonStats;
@@ -102,12 +104,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 // Start activity if there is a person inside of it
-            if(mPersonEvent.size() == 2) {
-                Intent intentPeople = new Intent(getView().getContext(), PersonStats.class);
-                MainModel.setCurrPerson(mPersonEvent.get(0));
-                startActivity(intentPeople);
-                System.out.println(mPersonEvent.get(0));
-            } else Toast.makeText(getView().getContext(), "Please Select a Marker", Toast.LENGTH_SHORT).show();
+                if (mPersonEvent.size() == 2) {
+                    Intent intentPeople = new Intent(getView().getContext(), PersonStats.class);
+                    MainModel.setCurrPerson(mPersonEvent.get(0));
+                    startActivity(intentPeople);
+                    System.out.println(mPersonEvent.get(0));
+                } else
+                    Toast.makeText(getView().getContext(), "Please Select a Marker", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -144,6 +147,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             LatLng provo = new LatLng(40.246507, -111.645781);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 3));
         }
+        if(MainModel.ifLines()) {
+            // TODO: Draw lines here
+            ArrayList<LatLng> coords = MainModel.getPersonById(MainModel.getCurrPerson()).getEventStory();
+            renderLines(coords, map);
+        }
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -178,6 +186,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             markerMap.put(marker, personEvent);
         }
     }
+
+    public void renderLines(ArrayList<LatLng> coords, GoogleMap theMap) {
+        // Create the PolylineOptions. This creates a line between the specified points.
+        float width = 5;
+        PolylineOptions opt = new PolylineOptions()
+                .addAll(coords)
+                .width(width)
+                .color(MainModel.getLifeStoryColor());
+
+        // Add the new line.
+        theMap.addPolyline(opt);
+    }
+
 
     @Override
     public void onDetach() {

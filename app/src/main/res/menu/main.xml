@@ -16,4 +16,10 @@
         android:title="@string/searchTitle"
         android:icon="@drawable/ic_search_white_36dp"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_item_settings"
+        android:title="@string/settingsTitle"
+        android:icon="@drawable/ic_settings_white_36dp"
+        app:showAsAction="always"/>
 </menu>

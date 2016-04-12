@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity
                     Intent intentFilter = new Intent(this, Filter.class);
                     startActivity(intentFilter);
                     break;
+                case "Settings":
+                    Intent intentSettings = new Intent(this, Settings.class);
+                    startActivity(intentSettings);
+                    break;
             }
 
             return true;

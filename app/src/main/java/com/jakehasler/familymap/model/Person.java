@@ -1,5 +1,6 @@
 package com.jakehasler.familymap.model;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.jakehasler.familymap.MainModel;
 
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class Person {
     public HashMap<Person, String> getFamPersons() {
         HashMap<Person, String> currFam = new HashMap<>();
         if(father != null) {
-            currFam.put( MainModel.getPersonById(father.getPersonId()), "Father");
+            currFam.put(MainModel.getPersonById(father.getPersonId()), "Father");
         }
         if(mother != null) {
             currFam.put(MainModel.getPersonById(mother.getPersonId()), "Mother");
@@ -175,6 +176,34 @@ public class Person {
             }
         }
         return currFam;
+    }
+
+    public String getEarliestEvent() {
+        String earliestEv = "";
+        int earliestYear = 5000;
+        if(events.size() > 0) {
+            for(String ev : events) {
+                Event actualEv = MainModel.getEventById(ev);
+                if(actualEv.getYear() < earliestYear) {
+                    earliestYear = actualEv.getYear();
+                    earliestEv = actualEv.getEventId();
+                }
+            }
+        }
+        else return null;
+
+        return earliestEv;
+    }
+
+    public ArrayList<LatLng> getEventStory() {
+        ArrayList<LatLng> coords = new ArrayList<>();
+        if(events.size() > 0) {
+            for(String ev : events) {
+                Event actualEv = MainModel.getEventById(ev);
+                coords.add(actualEv.getCoords());
+            }
+        }
+        return coords;
     }
 
 

@@ -1,6 +1,7 @@
 package com.jakehasler.familymap;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.WindowManager;
@@ -32,6 +33,8 @@ public class MainModel {
     public static String welcomeMsg;
     public static String currentPerson;
     public static String currentEvent;
+    public static boolean ifLines = false;
+    public static int lifeStoryColor;
     public static HashMap<String, Event> eventMap = new HashMap<>();
     public static HashMap<String, Person> personMap = new HashMap<>();
     public static TreeMap<String, ArrayList<String>> eventNames = new TreeMap<>();
@@ -180,5 +183,19 @@ public class MainModel {
         }
     }
 
+    public static boolean ifLines() {
+        return ifLines;
+    }
 
+    public static void setIfLines(boolean ifLines) {
+        MainModel.ifLines = ifLines;
+    }
+
+    public static int getLifeStoryColor() {
+        return lifeStoryColor;
+    }
+
+    public static void setLifeStoryColor(int lifeStoryColor) {
+        MainModel.lifeStoryColor = lifeStoryColor;
+    }
 }
