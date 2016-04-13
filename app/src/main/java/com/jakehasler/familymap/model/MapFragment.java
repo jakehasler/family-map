@@ -55,6 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private View mPersonView;
     private HashMap markerMap = new HashMap<Marker, ArrayList<String>>();
     private ArrayList<String> mPersonEvent = new ArrayList();
+    private GoogleMap theMap;
 
     private OnFragmentInteractionListener listener;
 
@@ -90,6 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -115,6 +117,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(MainModel.ifLines() && MainModel.getCurrPerson() != null) {
+            clearLines();
+           this.renderLines(MainModel.getPersonById(MainModel.getCurrPerson()).getEventStory());
+        }
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (listener != null) {
@@ -134,24 +145,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap map) {
+        this.theMap = map;
         if (MainModel.getCurrEvent() != null) {
             System.out.println("Navigating...");
             Event selectedEvent = MainModel.getEventById(MainModel.getCurrEvent());
             System.out.println("selectedEvent.getCoords() = " + selectedEvent.getCoords());
             LatLng coords = selectedEvent.getCoords();
-//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 8));
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 7.0f));
+            theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 7.0f));
         }
         else {
             LatLng provo = new LatLng(40.246507, -111.645781);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 3));
+            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 3));
         }
-        if(MainModel.ifLines()) {
+        if(MainModel.ifLines() && MainModel.getCurrPerson() != null) {
             // TODO: Draw lines here
             ArrayList<LatLng> coords = MainModel.getPersonById(MainModel.getCurrPerson()).getEventStory();
-            renderLines(coords, map);
+            renderLines(coords);
         }
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        theMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 System.out.println("marker Clicked! = " + marker);
@@ -164,6 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 p.setText(fullName);
                 TextView t = (TextView)mPersonView.findViewById(R.id.mapPersonEvent);
                 t.setText(details);
+                if(MainModel.ifLines() && MainModel.getCurrPerson() != null) {
+                    clearLines();
+                    renderLines(MainModel.getPersonById(MainModel.getCurrPerson()).getEventStory());
+                }
                 // TODO: Change M/F Icon Here!!
                 return false;
             }
@@ -188,7 +203,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-    public void renderLines(ArrayList<LatLng> coords, GoogleMap theMap) {
+    public void renderLines(ArrayList<LatLng> coords) {
         // Create the PolylineOptions. This creates a line between the specified points.
         float width = 5;
         PolylineOptions opt = new PolylineOptions()
@@ -197,7 +212,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 .color(MainModel.getLifeStoryColor());
 
         // Add the new line.
-        theMap.addPolyline(opt);
+        if(theMap != null) {
+            this.theMap.addPolyline(opt);
+        }
+    }
+
+    public void clearLines() {
+        if(theMap != null) theMap.clear();
     }
 
 

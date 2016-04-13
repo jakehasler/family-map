@@ -1,6 +1,9 @@
 package com.jakehasler.familymap;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,12 +13,19 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
-public class Settings extends AppCompatActivity {
+import com.jakehasler.familymap.login.LoginFragment;
+import com.jakehasler.familymap.model.MapFragment;
+
+public class Settings extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener{
 
     private String[] storySpinner;
     private String[] treeSpinner;
     private String[] spouseSpinner;
+    private static LoginFragment loginFragment = new LoginFragment();
+    private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    private Settings activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,8 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        activity = new Settings();
 
         final Switch ifLines = (Switch) findViewById(R.id.ifLines);
         ifLines.setChecked(MainModel.ifLines());
@@ -54,13 +66,27 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        final TextView logout = (TextView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //finish();
+                MainModel.setAuthToken(null);
+                Intent mainIntent = new Intent(v.getContext(), MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(mainIntent);
+            }
+        });
+
         buildSpinners();
+    }
+
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
         // Enable back navigation
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
 
         // Back button
         if(item.getItemId() == android.R.id.home) { //app icon in action bar clicked; go back

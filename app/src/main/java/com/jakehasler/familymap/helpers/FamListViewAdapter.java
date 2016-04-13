@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jakehasler.familymap.MainModel;
 import com.jakehasler.familymap.PersonStats;
 import com.jakehasler.familymap.R;
+import com.jakehasler.familymap.Search;
 import com.jakehasler.familymap.model.Person;
 
 import java.util.ArrayList;
@@ -24,14 +25,23 @@ import java.util.Map;
  */
 public class FamListViewAdapter extends BaseAdapter {
 
-    private PersonStats activity;
+    private PersonStats personActivity;
+    private Search searchActivity;
     private static LayoutInflater inflater = null;
     private HashMap<Person, String> familyMap;
     private ArrayList<Person> family = new ArrayList<>();
+    private boolean isPerson = false;
 
 
-    public FamListViewAdapter(Activity activity, HashMap<Person, String> familyMap) {
-        this.activity = (PersonStats) activity;
+    public FamListViewAdapter(Activity activity, HashMap<Person, String> familyMap, String type) {
+        if(type == "person") {
+            this.personActivity = (PersonStats) activity;
+            isPerson = true;
+        }
+        if(type == "search") {
+            this.searchActivity = (Search) activity;
+            isPerson = false;
+        }
         this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.familyMap = familyMap;
         Iterator it = this.familyMap.entrySet().iterator();
@@ -50,12 +60,15 @@ public class FamListViewAdapter extends BaseAdapter {
         TextView personCellTextTop = (TextView) cellEvent.findViewById(R.id.textItem);
         //TextView personCellTextBottom = (TextView) cellEvent.findViewById(R.id.familyCellTextBottom);
         String relationship = familyMap.get(p);
-        personCellTextTop.setText(relationship + ": " + p.getFullName());
+        if(isPerson) personCellTextTop.setText(relationship + ": " + p.getFullName());
+        else personCellTextTop.setText(p.getFullName());
         cellEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Call the activities method
-                activity.onFamilySelected(family.get(position));
+                if(isPerson)personActivity.onFamilySelected(family.get(position));
+                else searchActivity.onFamilySelected(family.get(position));
+
             }
         });
 

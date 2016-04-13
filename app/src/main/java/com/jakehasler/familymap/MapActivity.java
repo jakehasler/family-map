@@ -23,9 +23,11 @@ public class MapActivity extends AppCompatActivity implements MapFragment.OnFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         // Configure the toolbar
+//        toolbar.getMenu().clear();
+        //setHasOptionsMenu(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.mapFragment = new MapFragment();
@@ -33,14 +35,15 @@ public class MapActivity extends AppCompatActivity implements MapFragment.OnFrag
                 .add(R.id.container2, this.mapFragment)
                 .commit();
 
-//        LatLng provo = new LatLng(40.246507, -111.645781);
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(provo, 5));
     }
+
+    // Look into OnResume for redrawing lines
+    // Call line drawer on point click
 
 
     // Determine what menu to use
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 
@@ -62,6 +65,11 @@ public class MapActivity extends AppCompatActivity implements MapFragment.OnFrag
                 Intent intentSettings = new Intent(this, Settings.class);
                 startActivity(intentSettings);
                 break;
+            case "goToTop":
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

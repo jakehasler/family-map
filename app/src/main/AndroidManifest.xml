@@ -40,13 +40,10 @@
             android:name=".PersonStats"
             android:label="@string/title_activity_person_stats"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Search"
-            android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Filter" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".Search"></activity>
     </application>
 
 </manifest>

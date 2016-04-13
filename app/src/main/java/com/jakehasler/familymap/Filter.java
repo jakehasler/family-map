@@ -1,8 +1,10 @@
 package com.jakehasler.familymap;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,6 +25,8 @@ public class Filter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+        getSupportActionBar().setTitle("Filter");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
         Iterator it = MainModel.getEventNames().entrySet().iterator();
         while(it.hasNext()) {
@@ -51,6 +55,18 @@ public class Filter extends AppCompatActivity {
         }
 
 
+    }
+
+    // Enable back navigation
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Back button
+        if(item.getItemId() == android.R.id.home) { //app icon in action bar clicked; go back
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

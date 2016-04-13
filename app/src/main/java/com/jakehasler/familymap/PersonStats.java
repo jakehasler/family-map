@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,12 +85,12 @@ public class PersonStats extends AppCompatActivity {
         // Filling in Event List
         //ExpandableListAdapter evListAdapter;
         ListView eventList = (ListView)findViewById(R.id.eventList);
-        evListAdapter = new EventListViewAdapter(this, currEvents);
+        evListAdapter = new EventListViewAdapter(this, currEvents, "person");
         eventList.setAdapter(evListAdapter);
         // Filling in Family List
         ListView familyList = (ListView)findViewById(R.id.familyList);
         HashMap<Person, String> fam = MainModel.getPersonById(currPersonId).getFamPersons();
-        famListAdapter = new FamListViewAdapter(this, fam);
+        famListAdapter = new FamListViewAdapter(this, fam, "person");
         familyList.setAdapter(famListAdapter);
     }
 
@@ -105,6 +106,12 @@ public class PersonStats extends AppCompatActivity {
         startActivity(new Intent(this, MapActivity.class));
     }
 
+    // Determine what menu to use
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_map, menu);
+        return true;
+    }
+
     // Enable back navigation
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -112,6 +119,17 @@ public class PersonStats extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home) { //app icon in action bar clicked; go back
             finish();
             return true;
+        }
+        switch(item.toString()) {
+            case "Settings":
+                Intent intentSettings = new Intent(this, Settings.class);
+                startActivity(intentSettings);
+                break;
+            case "goToTop":
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
