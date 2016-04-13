@@ -131,9 +131,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Re-Sync"
+        android:id="@+id/resync"
+        android:layout_below="@id/line6"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/line8"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:paddingTop="5dip"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/resync"
+        android:layout_height="1dp"
+        android:background="#d6d6d6"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Logout"
         android:id="@+id/logout"
-        android:layout_below="@id/line6"
+        android:layout_below="@id/line8"
         android:layout_marginTop="10dp"/>
 
     <TextView

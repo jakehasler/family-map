@@ -78,6 +78,18 @@ public class Settings extends AppCompatActivity implements LoginFragment.OnFragm
             }
         });
 
+        final TextView reSync = (TextView) findViewById(R.id.resync);
+        reSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                LoginFragment
+                Intent mainIntent = new Intent(v.getContext(), MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(mainIntent);
+            }
+        });
+
         buildSpinners();
     }
 

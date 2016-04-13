@@ -176,13 +176,13 @@ public class MainModel {
     }
 
     public static void addEventName(String name, String eventId) {
-        if(eventNames.containsKey(name)) {
-            eventNames.get(name).add(eventId);
+        if(eventNames.containsKey(name.toLowerCase())) {
+            eventNames.get(name.toLowerCase()).add(eventId);
         }
         else {
             ArrayList<String> ids = new ArrayList<>();
             ids.add(eventId);
-            eventNames.put(name, ids);
+            eventNames.put(name.toLowerCase(), ids);
         }
     }
 

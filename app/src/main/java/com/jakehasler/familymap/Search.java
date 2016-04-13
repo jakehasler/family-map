@@ -68,6 +68,12 @@ public class Search extends AppCompatActivity {
 
 
     public void genLists(CharSequence s) {
+        String str = s.toString();
+        String lowered = str.toLowerCase();
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+        }
         events = new ArrayList<>();
         persons = new HashMap<>();
         HashMap<String, Event> evs = MainModel.getEventMap();
@@ -77,7 +83,7 @@ public class Search extends AppCompatActivity {
         while(it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Event ev = (Event)pair.getValue();
-            if(ev.getDetails().contains(s)) {
+            if(ev.getDetails().toLowerCase().contains(lowered)) {
                 events.add(ev.getEventId());
             }
         }
@@ -86,7 +92,7 @@ public class Search extends AppCompatActivity {
         while(it2.hasNext()) {
             Map.Entry pair2 = (Map.Entry)it2.next();
             Person peep = (Person) pair2.getValue();
-            if(peep.getFullName().contains(s)) {
+            if(peep.getFullName().toLowerCase().contains(lowered)) {
                 persons.put(peep, "Family");
             }
         }
